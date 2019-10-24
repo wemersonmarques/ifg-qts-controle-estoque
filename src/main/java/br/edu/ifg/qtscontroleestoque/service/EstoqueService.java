@@ -20,27 +20,34 @@ public class EstoqueService {
     public void movimentar(ETipoMovimentacao tipoMovimentacao, Produto produto, float quantidade) {
         switch (tipoMovimentacao) {
             case ENTRADA:
-                produto.setSaldoAtual(produto.getSaldoAtual() + quantidade);
+                adicionarSaldoProduto(produto, quantidade);
                 produtoDao.atualizar(produto);
                 movimentacaoDao.salvar(new Movimentacao(tipoMovimentacao, produto, quantidade));
                 break;
             case SAIDA:
-                if (quantidade > produtoDao.consultarSaldo(produto)) {
-                    throw new RuntimeException("O saldo do produto é superior à quantidade da saída");
-                } else {
-                    produto.setSaldoAtual(produto.getSaldoAtual() - quantidade);
-                    produtoDao.atualizar(produto);
-                    movimentacaoDao.salvar(new Movimentacao(tipoMovimentacao, produto, quantidade));
-                }
+                subtrairSaldoProduto(produto, quantidade);
+                produtoDao.atualizar(produto);
+                movimentacaoDao.salvar(new Movimentacao(tipoMovimentacao, produto, quantidade));
                 break;
             default:
                 break;
         }
-
     }
 
-    public float consultarSaldo(Produto produto) {
-        return produtoDao.consultarSaldo(produto);
+    public void adicionarSaldoProduto(Produto produto, float quantidade) {
+        if (produto.getSaldoAtual() + quantidade <= produto.getEstoqueMaximo()) {
+            produto.setSaldoAtual(produto.getSaldoAtual() + quantidade);
+        } else {
+            throw new RuntimeException("A quantidade da entrada somada ao estoque atual é maior do que o estoque máximo permitido para o produto");
+        }
+    }
+
+    public void subtrairSaldoProduto(Produto produto, float quantidade) {
+        if (produto.getSaldoAtual() >= quantidade && produto.getSaldoAtual() - quantidade >= produto.getEstoqueMinimo()) {
+            produto.setSaldoAtual(produto.getSaldoAtual() - quantidade);
+        } else {
+            throw new RuntimeException("A quantidade da saida é maior que o estoque atual ou a quantidade do estoque atual menos a quantidade da saída é maior que a quantidade do estoque mínimo");
+        }
     }
 
 }

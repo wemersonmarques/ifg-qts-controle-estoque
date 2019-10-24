@@ -36,7 +36,7 @@ public class MovimentacaoController {
 
     @RequestMapping(value = "/movimentacao/cadastrar", method = RequestMethod.POST)
     public ModelAndView cadastrar(MovimentacaoDTO movimentacao){
-        ModelAndView mav = new ModelAndView("");
+        ModelAndView mav = new ModelAndView("movimentacao");
         estoqueService.movimentar(ETipoMovimentacao.valueOf(movimentacao.getTipoMovimentacao()),
                 (Produto) produtoDao.consultarPorId(Produto.class, movimentacao.getCodigoProduto()),
                 movimentacao.getQuantidade());

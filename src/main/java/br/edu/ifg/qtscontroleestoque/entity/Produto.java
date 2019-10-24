@@ -15,6 +15,11 @@ public class Produto {
     @Column
     private float saldoAtual;
 
+    @Column
+    private float estoqueMaximo;
+
+    @Column
+    private float estoqueMinimo;
 
 
     public float getSaldoAtual() {
@@ -40,4 +45,21 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public float getEstoqueMaximo() {
+        return estoqueMaximo;
+    }
+
+    public void setEstoqueMaximo(float estoqueMaximo) {
+        this.estoqueMaximo = estoqueMaximo;
+    }
+
+    public float getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
+
+    public void setEstoqueMinimo(float estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
+    }
 }
+
