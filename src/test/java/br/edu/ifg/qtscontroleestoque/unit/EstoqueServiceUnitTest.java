@@ -4,8 +4,8 @@ import br.edu.ifg.qtscontroleestoque.entity.Movimentacao;
 import br.edu.ifg.qtscontroleestoque.entity.Produto;
 import br.edu.ifg.qtscontroleestoque.service.EstoqueService;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 public class EstoqueServiceUnitTest {
 
@@ -16,7 +16,7 @@ public class EstoqueServiceUnitTest {
     private EstoqueService estoqueService;
     private final float TOLERANCIA_CASAS_DECIMAIS = 0.0001f;
 
-    @BeforeEach
+    @Before
     public void context() {
         produto = new Produto();
         movimentacao = new Movimentacao();
@@ -31,14 +31,10 @@ public class EstoqueServiceUnitTest {
         Assert.assertEquals(QUANTIDADE_SALDO_DIFERENTE_ENTRADA, 14.09, produto.getSaldoAtual(), TOLERANCIA_CASAS_DECIMAIS);
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void naoDevePermitirEntradaMaiorQueEstoqueMaximo() {
         produto.setEstoqueMaximo(15);
-        try {
-            estoqueService.adicionarSaldoProduto(produto, 15.001f);
-        } catch (RuntimeException e) {}
-
-        Assert.assertEquals(QUANTIDADE_SALDO_DIFERENTE_ENTRADA, 0, produto.getSaldoAtual(), TOLERANCIA_CASAS_DECIMAIS);
+        estoqueService.adicionarSaldoProduto(produto, 15.001f);
     }
 
     @Test
@@ -55,13 +51,10 @@ public class EstoqueServiceUnitTest {
         Assert.assertEquals(QUANTIDADE_SALDO_DIFERENTE_SAIDA, 0.998, produto.getSaldoAtual(), TOLERANCIA_CASAS_DECIMAIS);
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void naoDevePermitirSaidaMaiorQueEstoqueAtual() {
         produto.setSaldoAtual(15);
-        try {
-            estoqueService.subtrairSaldoProduto(produto, 16);
-        } catch (RuntimeException e) {}
-        Assert.assertEquals(QUANTIDADE_SALDO_DIFERENTE_SAIDA, 15, produto.getSaldoAtual(), 0.0001);
+        estoqueService.subtrairSaldoProduto(produto, 16);
     }
 
     @Test
@@ -71,15 +64,11 @@ public class EstoqueServiceUnitTest {
         Assert.assertEquals(QUANTIDADE_SALDO_DIFERENTE_SAIDA, 0, produto.getSaldoAtual(), TOLERANCIA_CASAS_DECIMAIS);
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void naoDevePermitirSaidaMenorQueEstoqueMinimo() {
         produto.setSaldoAtual(15);
         produto.setEstoqueMinimo(10);
-        try {
-            estoqueService.subtrairSaldoProduto(produto, 10);
-        } catch (RuntimeException e) {}
-
-        Assert.assertEquals(QUANTIDADE_SALDO_DIFERENTE_SAIDA, 15, produto.getSaldoAtual(), TOLERANCIA_CASAS_DECIMAIS);
+        estoqueService.subtrairSaldoProduto(produto, 10);
     }
 
     @Test
