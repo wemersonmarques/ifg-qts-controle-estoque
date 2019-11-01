@@ -35,12 +35,19 @@ public class MovimentacaoController {
     }
 
     @RequestMapping(value = "/movimentacao/cadastrar", method = RequestMethod.POST)
-    public ModelAndView cadastrar(MovimentacaoDTO movimentacao){
+    public ModelAndView cadastrar(MovimentacaoDTO movimentacao) {
         ModelAndView mav = new ModelAndView("movimentacao");
-        estoqueService.movimentar(ETipoMovimentacao.valueOf(movimentacao.getTipoMovimentacao()),
-                (Produto) produtoDao.consultarPorId(Produto.class, movimentacao.getCodigoProduto()),
-                movimentacao.getQuantidade());
-        return mav;
+        try {
+            estoqueService.movimentar(ETipoMovimentacao.valueOf(movimentacao.getTipoMovimentacao()),
+                    (Produto) produtoDao.consultarPorId(Produto.class, movimentacao.getCodigoProduto()),
+                    movimentacao.getQuantidade());
+        } catch(RuntimeException e) {
+            MovimentacaoDTO dto = new MovimentacaoDTO();
+            dto.setMensagem(e.getMessage());
+            mav.addObject("movimentacaoDto", dto);
+        } finally {
+            return mav;
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/movimentacao/remover")

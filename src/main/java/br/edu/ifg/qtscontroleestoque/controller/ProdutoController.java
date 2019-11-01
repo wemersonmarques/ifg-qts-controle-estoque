@@ -28,7 +28,7 @@ public class ProdutoController {
     @RequestMapping(method = RequestMethod.POST, value = {"/produto/cadastrar"})
     public ModelAndView cadastrar(Produto produto) {
         produtoDao.salvar(produto);
-        return new ModelAndView("");
+        return new ModelAndView("redirect:/produto");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/produto/consultar/id"})

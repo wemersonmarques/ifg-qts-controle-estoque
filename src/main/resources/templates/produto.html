@@ -1,45 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
-<head>
-    <meta charset="utf-8">
-    <title>Qualidade e Teste de Software - Controle de Estoque</title>
-
-    <link href="css/normalize.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
+<head th:replace="head :: head"></head>
 
 <body>
-    <header>
-        <a href="/produto">Gerenciar produtos</a>
-        <a href="/movimentacao">Gerenciar movimentações</a>
-        <a href="">Gerenciar usuários</a>
-    </header>
+    <div th:insert="left-sidebar :: div"></div>
 
     <div class="content">
-        <div class="produtos" >
-            <div id="produto/cadastro">
-                <h3>Cadastrar novo produto</h3>
-                <form action="cadastrar" method="post">
-                    Descrição <input name="descricao" required>
-                    <input type="submit" value="Enviar">
-                </form>
+        <div class="row">
+            <div class="produtos col-md-5">
+                <div id="produtocadastro" >
+                    <h5>Cadastrar novo produto</h5>
+                    <form action="/produto/cadastrar" method="post">
+                        <label>Descrição</label> <br/> <input name="descricao" required> <br/>
+                        <label>Estoque máximo</label> <br/> <input name="estoqueMaximo" type="number" required><br/>
+                        <label>Estoque mínimo</label> <br/> <input name="estoqueMinimo" type="number" required><br/>
+                        <input type="submit" value="Enviar">
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <table id="produtoscadastrados">
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Saldo atual</th>
+                    <th>Estoque máximo</th>
+                    <th>Estoque mínimo</th>
+                    <tr th:each="produto : ${produtos}">
+                        <td th:text="${produto.id}"></td>
+                        <td th:text="${produto.descricao}"></td>
+                        <td th:text="${produto.saldoAtual}"></td>
+                        <td th:text="${produto.estoqueMaximo}"></td>
+                        <td th:text="${produto.estoqueMinimo}"></td>
+                    </tr>
+                </table>
             </div>
         </div>
-        <table id="produtoscadastrados">
-            <h3>Produtos cadastrados</h3>
-            <th>Identificador</th>
-            <th>Descrição</th>
-            <th>Saldo atual</th>
-            <tr th:each="produto : ${produtos}">
-                 <td th:text="${produto.id}"></td>
-                 <td th:text="${produto.descricao}"></td>
-                 <td th:text="${produto.saldoAtual}"></td>
-            </tr>
-        </table>
     </div>
-
 
     <footer>
 

@@ -1,38 +1,13 @@
-package br.edu.ifg.qtscontroleestoque.entity;
+package br.edu.ifg.qtscontroleestoque.dto;
 
-import br.edu.ifg.qtscontroleestoque.dto.UsuarioDTO;
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "usuarios")
-public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UsuarioDTO {
     private int id;
-    @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
     private String senha;
-    @CreationTimestamp
     private Date dataCadastro;
-
-    public Usuario(){
-
-    }
-
-    public Usuario(UsuarioDTO dto) {
-        this.id = dto.getId();
-        this.email = dto.getEmail();
-        this.nome = dto.getNome();
-        this.dataCadastro = dto.getDataCadastro();
-        this.senha = dto.getSenha();
-    }
-
 
     public int getId() {
         return id;
