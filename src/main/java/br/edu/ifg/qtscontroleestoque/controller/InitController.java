@@ -26,6 +26,6 @@ public class InitController {
         if (!usuarioService.isLogado()) {
             return new ModelAndView("login");
         }
-        return new ModelAndView("movimentacao");
+        return new ModelAndView("redirect:/movimentacao");
     }
 }

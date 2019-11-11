@@ -44,4 +44,10 @@ public class LoginController {
             return new ModelAndView("redirect:/login");
         }
     }
+
+    @RequestMapping(value = "/login/deslogar")
+    public ModelAndView deslogar() {
+        session.invalidate();
+        return new ModelAndView("redirect:/");
+    }
 }

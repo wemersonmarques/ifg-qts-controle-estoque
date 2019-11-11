@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class UsuarioController {
 
@@ -19,6 +21,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private HttpSession session;
+
     @RequestMapping(method = RequestMethod.GET, value="/usuario")
     public ModelAndView init() {
         ModelAndView mav = new ModelAndView("usuario-cadastro");
@@ -26,7 +31,7 @@ public class UsuarioController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/usuario/cadastrar")
+    @RequestMapping(method = RequestMethod.POST, value = "/cadastrar")
     public ModelAndView cadastrar(UsuarioDTO usuarioDto) {
         ModelAndView mav = new ModelAndView("redirect:/login");
         Usuario usuario = new Usuario(usuarioDto);
@@ -34,5 +39,19 @@ public class UsuarioController {
             usuarioDao.salvar(usuario);
         }
         return mav;
+    }
+
+    @RequestMapping(value = "/perfil")
+    public ModelAndView visualizarPefil() {
+        if (usuarioService.isLogado()) {
+            ModelAndView mav = new ModelAndView("usuario-perfil");
+            String email = (String) session.getAttribute("user");
+            Usuario usuario = usuarioDao.consultarPorEmail(email);
+            mav.addObject("usuario", usuario);
+
+            return mav;
+        }
+
+        return new ModelAndView("redirect:login");
     }
 }

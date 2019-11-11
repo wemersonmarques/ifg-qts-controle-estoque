@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="head :: head"></head>
+
+<body>
+    <div th:insert="left-sidebar :: div"></div>
+    <div class="container">
+        <div class="header">
+            <h1 th:text="${usuario.nome}"></h1>
+            <h5 th:text="${usuario.email}"></h5>
+            <span th:text="'Cadastrado em: ' + ${usuario.dataCadastro}"></span>
+        </div>
+    </div>
+</body>
+
+</html>
+

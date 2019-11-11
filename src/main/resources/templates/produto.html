@@ -7,19 +7,18 @@
     <div th:insert="left-sidebar :: div"></div>
 
     <div class="content">
-        <div class="row">
-            <div class="produtos col-md-5">
+            <div class="produtos col-md-12">
                 <div id="produtocadastro" >
                     <h5>Cadastrar novo produto</h5>
                     <form action="/produto/cadastrar" method="post">
-                        <label>Descrição</label> <br/> <input name="descricao" required> <br/>
-                        <label>Estoque máximo</label> <br/> <input name="estoqueMaximo" type="number" required><br/>
-                        <label>Estoque mínimo</label> <br/> <input name="estoqueMinimo" type="number" required><br/>
+                        Descrição <input name="descricao" required>
+                        Estoque máximo <input name="estoqueMaximo" type="number" required>
+                        Estoque mínimo <input name="estoqueMinimo" type="number" required>
                         <input type="submit" value="Enviar">
                     </form>
                 </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <table id="produtoscadastrados">
                     <th>Código</th>
                     <th>Descrição</th>
@@ -35,7 +34,6 @@
                     </tr>
                 </table>
             </div>
-        </div>
     </div>
 
     <footer>
