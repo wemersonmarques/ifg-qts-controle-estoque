@@ -1,7 +1,9 @@
 package br.edu.ifg.qtscontroleestoque.controller;
 
 import br.edu.ifg.qtscontroleestoque.dao.ProdutoDAO;
+import br.edu.ifg.qtscontroleestoque.dto.ProdutoDTO;
 import br.edu.ifg.qtscontroleestoque.entity.Produto;
+import br.edu.ifg.qtscontroleestoque.service.ProdutoService;
 import br.edu.ifg.qtscontroleestoque.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -20,6 +24,9 @@ public class ProdutoController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ProdutoService produtoService;
 
     @RequestMapping(method = RequestMethod.GET, value = {"/produto"})
     public ModelAndView init() {
@@ -34,13 +41,19 @@ public class ProdutoController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = {"/produto/cadastrar"})
-    public ModelAndView cadastrar(Produto produto) {
+    public RedirectView cadastrar(ProdutoDTO produto, RedirectAttributes redir) {
         if (!usuarioService.isLogado()) {
-            return new ModelAndView("login");
+            return new RedirectView("/login");
         }
 
-        produtoDao.salvar(produto);
-        return new ModelAndView("redirect:/produto");
+        try {
+            produtoService.cadastrar(produto);
+        } catch (RuntimeException e) {
+            produto.setMensagemErro(e.getMessage());
+            redir.addFlashAttribute("produtoDto", produto);
+        }
+
+        return new RedirectView("/produto");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/produto/consultar/id"})

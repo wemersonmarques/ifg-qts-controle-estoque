@@ -1,5 +1,7 @@
 package br.edu.ifg.qtscontroleestoque.entity;
 
+import br.edu.ifg.qtscontroleestoque.dto.ProdutoDTO;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,15 @@ public class Produto {
     @Column
     private float estoqueMinimo;
 
+    public Produto() {}
+
+    public Produto(ProdutoDTO produtoDTO) {
+        this.id = produtoDTO.getId();
+        this.descricao = produtoDTO.getDescricao();
+        this.saldoAtual = produtoDTO.getSaldoAtual();
+        this.estoqueMaximo = produtoDTO.getEstoqueMaximo();
+        this.estoqueMinimo = produtoDTO.getEstoqueMinimo();
+    }
 
     public float getSaldoAtual() {
         return saldoAtual;

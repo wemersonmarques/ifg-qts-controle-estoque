@@ -14,7 +14,10 @@
                         Descrição <input name="descricao" required>
                         Estoque máximo <input name="estoqueMaximo" type="number" required>
                         Estoque mínimo <input name="estoqueMinimo" type="number" required>
-                        <input type="submit" value="Enviar">
+                        <input type="submit" value="Enviar"><br />
+                        <span style="color: red" th:if="${produtoDto} != null"
+                              th:text="${produtoDto.mensagemErro}">
+                        </span>
                     </form>
                 </div>
             </div>

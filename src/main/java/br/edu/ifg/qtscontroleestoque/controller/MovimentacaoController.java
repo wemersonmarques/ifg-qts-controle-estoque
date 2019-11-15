@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class MovimentacaoController {
@@ -43,12 +45,12 @@ public class MovimentacaoController {
     }
 
     @RequestMapping(value = "/movimentacao/cadastrar", method = RequestMethod.POST)
-    public ModelAndView cadastrar(MovimentacaoDTO movimentacao) {
+    public RedirectView cadastrar(MovimentacaoDTO movimentacao, RedirectAttributes redir) {
         if (!usuarioService.isLogado()) {
-            return new ModelAndView("login");
+            return new RedirectView("/login");
         }
 
-        ModelAndView mav = new ModelAndView("redirect:/movimentacao");
+        RedirectView mav = new RedirectView("/movimentacao");
         try {
             estoqueService.movimentar(ETipoMovimentacao.valueOf(movimentacao.getTipoMovimentacao()),
                     (Produto) produtoDao.consultarPorId(Produto.class, movimentacao.getCodigoProduto()),
@@ -56,7 +58,7 @@ public class MovimentacaoController {
         } catch(RuntimeException e) {
             MovimentacaoDTO dto = new MovimentacaoDTO();
             dto.setMensagem(e.getMessage());
-            mav.addObject("movimentacaoDto", dto);
+            redir.addFlashAttribute("movimentacaoDto", dto);
         } finally {
             return mav;
         }
