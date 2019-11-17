@@ -8,6 +8,15 @@ public class UsuarioDTO {
     private String nome;
     private String senha;
     private Date dataCadastro;
+    private String mensagemErro;
+
+    public String getMensagemErro() {
+        return mensagemErro;
+    }
+
+    public void setMensagemErro(String mensagemErro) {
+        this.mensagemErro = mensagemErro;
+    }
 
     public int getId() {
         return id;

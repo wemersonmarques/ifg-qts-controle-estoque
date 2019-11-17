@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,13 +34,20 @@ public class UsuarioController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/cadastrar")
-    public ModelAndView cadastrar(UsuarioDTO usuarioDto) {
-        ModelAndView mav = new ModelAndView("redirect:/login");
+    public RedirectView cadastrar(UsuarioDTO usuarioDto, RedirectAttributes redir) {
+        RedirectView mav = null;
         Usuario usuario = new Usuario(usuarioDto);
-        if (!usuarioService.hasCadastro(usuario)) {
-            usuarioDao.salvar(usuario);
+
+        try {
+            usuarioService.cadastrar(usuarioDto);
+            mav = new RedirectView("/login");
+        } catch (RuntimeException e) {
+            mav = new RedirectView("/usuario");
+            usuarioDto.setMensagemErro(e.getMessage());
+            redir.addFlashAttribute("usuarioDto", usuarioDto);
+        } finally {
+            return mav;
         }
-        return mav;
     }
 
     @RequestMapping(value = "/perfil")

@@ -6,15 +6,15 @@
     </header>
     <ul class="nav row">
       <li class="col-md-12">
-        <a href="/produto">Produtos</a>
+        <a href="/produto" id="produtos">Produtos</a>
       </li>
       <li class="col-md-12">
-        <a href="/movimentacao">Movimentações</a>
+        <a href="/movimentacao" id="movimentacoes">Movimentações</a>
       </li>
       <li class="col-md-12">
-        <a href="/perfil">Meu perfil</a>
+        <a href="/perfil" id="perfil">Meu perfil</a>
       </li>
-      <li class="col-md-12" th:if="${#session?.getAttribute('user') != null}">
+      <li class="col-md-12" th:if="${#session?.getAttribute('user') != null}" id="deslogar">
          <a href="/login/deslogar">Deslogar</a>
       </li>
     </ul>

@@ -1,5 +1,7 @@
 package br.edu.ifg.qtscontroleestoque.dto;
 
+import br.edu.ifg.qtscontroleestoque.entity.Produto;
+
 public class ProdutoDTO {
     private int id;
     private String descricao;
@@ -7,6 +9,17 @@ public class ProdutoDTO {
     private float estoqueMaximo;
     private float estoqueMinimo;
     private String mensagemErro;
+
+    public ProdutoDTO(Produto produto) {
+        this.id = produto.getId();
+        this.descricao = produto.getDescricao();
+        this.saldoAtual = produto.getSaldoAtual();
+        this.estoqueMaximo = produto.getEstoqueMaximo();
+        this.estoqueMinimo = produto.getEstoqueMinimo();
+    }
+    public ProdutoDTO() {
+
+    }
 
     public String getMensagemErro() {
         return mensagemErro;

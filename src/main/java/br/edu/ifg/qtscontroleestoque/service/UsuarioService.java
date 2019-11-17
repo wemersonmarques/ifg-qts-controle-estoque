@@ -23,12 +23,6 @@ public class UsuarioService {
         return usuario != null;
     }
 
-    public void cadastrar(UsuarioDTO usuario) {
-        if (!hasCadastro(usuario.getId())) {
-            usuarioDao.salvar(usuario);
-        }
-    }
-
     public boolean isLogado() {
         return session.getAttribute("user") != null;
     }
@@ -49,6 +43,14 @@ public class UsuarioService {
             return true;
         } catch (NoResultException e) {
             return false;
+        }
+    }
+
+    public void cadastrar(UsuarioDTO usuarioDTO) {
+        if (!hasCadastro(new Usuario(usuarioDTO))) {
+            usuarioDao.salvar(new Usuario(usuarioDTO));
+        } else {
+            throw new RuntimeException("Email já cadastrado!");
         }
     }
 }

@@ -56,25 +56,23 @@ public class ProdutoController {
         return new RedirectView("/produto");
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = {"/produto/consultar/id"})
-    public ModelAndView consultarPorId(@RequestParam int id) {
+    @RequestMapping(method = RequestMethod.GET, value = {"/produto/excluir"})
+    public RedirectView excluir(@RequestParam("id") int id, RedirectAttributes redir) {
         if (!usuarioService.isLogado()) {
-            return new ModelAndView("login");
+            return new RedirectView("/login");
         }
 
-        Produto prod = (Produto) produtoDao.consultarPorId(Produto.class, id);
-        return new ModelAndView("");
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = {"/produto/consultar/all"})
-    public ModelAndView consultarTodos() {
-        if (!usuarioService.isLogado()) {
-            return new ModelAndView("login");
+        if (produtoService.excluir(id)) {
+            return new RedirectView("/produto");
+        } else {
+            ProdutoDTO produtoDTO = new ProdutoDTO();
+            produtoDTO.setMensagemErro("O produto já possui movimentações e por isso não pode ser excluído.");
+            redir.addFlashAttribute("produtoDtoExclusao", produtoDTO);
+            return new RedirectView("/produto");
         }
-
-        List<Produto> produtos = produtoDao.consultarTodos(Produto.class);
-        return new ModelAndView("");
     }
+
+
 
 
 

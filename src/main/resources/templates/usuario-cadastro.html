@@ -6,10 +6,13 @@
 
 <div id="cadastroUsuario">
     <form action="/cadastrar" method="post">
-        Nome: <input type="text" name="nome"><br/>
-        E-mail: <input type="email" name="email"><br/>
-        Senha: <input type="password" name="senha"><br/>
-        <input type="submit" value="Cadastrar">
+        Nome: <input type="text" name="nome" id="nome"><br/>
+        E-mail: <input type="email" name="email" id="email"><br/>
+        Senha: <input type="password" name="senha" id="senha"><br/>
+        <input type="submit" id="btnCadastrar" value="Cadastrar"><br/>
+        <span id="erro" style="color: red" th:if="${usuarioDto} != null"
+              th:text="${usuarioDto.mensagemErro}">
+        </span>
     </form>
 </div>
 </body>

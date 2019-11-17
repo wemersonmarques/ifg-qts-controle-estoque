@@ -11,10 +11,10 @@
                 <div id="produtocadastro" >
                     <h5>Cadastrar novo produto</h5>
                     <form action="/produto/cadastrar" method="post">
-                        Descrição <input name="descricao" required>
-                        Estoque máximo <input name="estoqueMaximo" type="number" required>
-                        Estoque mínimo <input name="estoqueMinimo" type="number" required>
-                        <input type="submit" value="Enviar"><br />
+                        Descrição <input name="descricao" id="descricao" required>
+                        Estoque máximo <input name="estoqueMaximo" id="estoqueMaximo" type="number" required>
+                        Estoque mínimo <input name="estoqueMinimo" id="estoqueMinimo" type="number" required>
+                        <input type="submit" id="btnEnviar" value="Enviar"><br />
                         <span style="color: red" th:if="${produtoDto} != null"
                               th:text="${produtoDto.mensagemErro}">
                         </span>
@@ -28,13 +28,18 @@
                     <th>Saldo atual</th>
                     <th>Estoque máximo</th>
                     <th>Estoque mínimo</th>
+                    <th>Ação</th>
                     <tr th:each="produto : ${produtos}">
-                        <td th:text="${produto.id}"></td>
-                        <td th:text="${produto.descricao}"></td>
+                        <td id="idCadastrado" th:text="${produto.id}"></td>
+                        <td id="descricaoCadastrado" th:text="${produto.descricao}"></td>
                         <td th:text="${produto.saldoAtual}"></td>
                         <td th:text="${produto.estoqueMaximo}"></td>
                         <td th:text="${produto.estoqueMinimo}"></td>
+                        <td><a th:href="'/produto/excluir?id=' + ${produto.id}">Excluir</a></td>
                     </tr>
+                    <span style="color: red" th:if="${produtoDtoExclusao} != null"
+                          th:text="${produtoDtoExclusao.mensagemErro}">
+                    </span>
                 </table>
             </div>
     </div>
