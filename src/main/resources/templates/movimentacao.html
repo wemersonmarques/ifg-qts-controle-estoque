@@ -23,7 +23,7 @@
                     </option>
                 </select>
 
-                Quantidade <input name="quantidade" type="number"><br/>
+                Quantidade <input name="quantidade" type="number" required><br/>
                 <input type="submit" value="Enviar">
                 <span style="color: red" th:if="${movimentacaoDto} != null"
                        th:text="${movimentacaoDto.mensagem}">

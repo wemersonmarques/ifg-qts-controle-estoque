@@ -27,16 +27,35 @@ public class ProdutoPage {
         driver.findElement(By.id("estoqueMinimo")).sendKeys(String.valueOf(estoqueMinimo));
     }
 
+    public void clicarEmEnviar() {
+        driver.findElement(By.id("btnEnviar")).click();
+    }
+
     public void cadastrarProduto(String descricao, float estoqueMaximo, float estoqueMinimo) {
         preencherDescricao(descricao);
         preencherEstoqueMaximo(estoqueMaximo);
         preencherEstoqueMinimo(estoqueMinimo);
+        clicarEmEnviar();
     }
 
     public List<String> getProdutosCadastrados() {
-        WebElement element = driver.findElement(By.id("produtoscadastrados"));
+        List<WebElement> elements = driver.findElements(By.id("descricaoCadastrado"));
+        List<String> produtosCadastrados = new ArrayList<>();
 
+        for (WebElement element : elements) {
+            produtosCadastrados.add(element.getText());
+        }
 
-        return new ArrayList<>();
+        return produtosCadastrados;
+    }
+
+    public boolean isProdutoCadastrado(List<String> produtosCadastrados, String produtoBusca) {
+        for (String prod : produtosCadastrados) {
+            if (prod.equals(produtoBusca)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

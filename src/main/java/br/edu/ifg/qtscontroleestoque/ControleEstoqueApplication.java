@@ -12,7 +12,6 @@ public class ControleEstoqueApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ControleEstoqueApplication.class, args);
-
 	}
 
 }

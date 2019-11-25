@@ -22,4 +22,8 @@ public class Navegador {
             driver.quit();
             driver = null;
         }
+
+        public static void atualizarPagina() {
+            driver.navigate().refresh();
+        }
 }

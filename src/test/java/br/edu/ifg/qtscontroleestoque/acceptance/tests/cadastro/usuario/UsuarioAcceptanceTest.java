@@ -33,7 +33,7 @@ public class UsuarioAcceptanceTest {
         perfilPage = new PerfilPage(driver);
     }
 
-    //@Test
+    @Test
     public void cadastrarUsuarioComEmailExistente() {
         loginPage.acessar();
         loginPage.acessarPaginaCadastro();
@@ -56,7 +56,7 @@ public class UsuarioAcceptanceTest {
         cadastroPage.preencherSenha(SENHA_USUARIO);
         cadastroPage.clicarEmCadastrar();
 
-        // Loga com o usuário cridao
+        // Loga com o usuário criado
         loginPage.logar(email, SENHA_USUARIO);
         menuPage.acessarMeuPerfil();
 
